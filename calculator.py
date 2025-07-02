@@ -3,7 +3,7 @@ import math
 
 #define values/buttons on calculator interface
 button_values = [
-    ["AC", "+/-", "%", "÷"],
+    ["CE", "+/-", "%", "÷"],
     ["7", "8", "9", "×"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
@@ -12,7 +12,7 @@ button_values = [
 
 #placement of special calculator characters
 r_symbols = ["÷", "×", "-", "+", "="];
-t_symbols = ["AC", "+/-", "%"];
+t_symbols = ["CE", "+/-", "%"];
 
 rows = len(button_values)
 columns = len(button_values[0])
@@ -25,6 +25,7 @@ color_black = "#1C1C1C";
 color_dark_grey = "#505050";
 color_orange = "#FF9500";
 color_white = "white";
+color_red = "#CC0000";
 
 #calculator UI interface
 window = tkinter.Tk();
@@ -42,9 +43,15 @@ for row in range(rows):
         button = tkinter.Button(frame, text=value, font=("Arial", 30), width=columns-1, height=1, command=lambda value=value: button_clicked(value))
 
         if value in t_symbols:
-            button.config(foreground=color_white, background=color_black)
+            if value == "CE":
+                button.config(foreground=color_red, background=color_black)
+            else:
+                button.config(foreground=color_tan, background=color_black)
         elif value in r_symbols:
-            button.config(foreground=color_white, background=color_black)
+            if value == "=":
+                button.config(foreground=color_white, background=color_tan)
+            else:
+                button.config(foreground=color_tan, background=color_black)
         else:
             button.config(foreground=color_faded_cyan, background=color_black)
 
@@ -60,7 +67,7 @@ B = None
 
 
 #function for clearing calculator display after a "right symbol" 
-#button is selected or when the "AC" button is pressed
+#button is selected or when the "CE" button is pressed
 def clear_all():
     global A, B, operator
     A = "0"
@@ -106,7 +113,7 @@ def button_clicked(value):
             operator = value
         
     elif value in t_symbols:
-        if value == "AC":
+        if value == "CE":
             clear_all()
             label["text"] = "0"
 
