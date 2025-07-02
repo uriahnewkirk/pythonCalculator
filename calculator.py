@@ -1,4 +1,5 @@
 import tkinter
+import math
 
 #define values/buttons on calculator interface
 button_values = [
@@ -77,7 +78,6 @@ def remove_zero_decimal(num):
 #function to evaluate each button press
 def button_clicked(value):
     global r_symbols, t_symbols, label, A, B, operator
-
     if value in r_symbols:
         if value == "=":
             if A is not None and operator is not None:
@@ -117,7 +117,15 @@ def button_clicked(value):
         elif value == "%":
             result = float(label["text"]) / 100
             label["text"] = remove_zero_decimal(result)
-        
+
+    elif value == "√":
+        #user types in a number then presses square root
+        #button to find square root of that number
+        if A is not None:
+            A = label["text"]
+            numA = float(A)
+            label["text"] = remove_zero_decimal(math.sqrt(numA))
+
     #numeric digit or decimal point
     else:
         if value == ".":
@@ -134,15 +142,12 @@ def button_clicked(value):
 
 
 window.update()
-
 #width & height of the tkinter window
 window_width = window.winfo_width()
 window_height = window.winfo_height()
-
 #retrive the user's screen width & height
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
-
 #draw UI window based on size of the user's screen
 window_x = int((screen_width/2) - (window_width/2))
 window_y = int((screen_height/2) - (window_height/2))
